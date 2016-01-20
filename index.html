@@ -108,6 +108,8 @@
 <div ng-include="my-template.html"></div>
 
 //Use:
+<my-component></my-component>
+
 module.component('myComponent', {
   templateUrl: 'my-template.html';
   ...
@@ -119,10 +121,28 @@ module.component('myComponent', {
 				<section>
 					<h2 style="color: #13DAEC;">What should we use instead?</h2>
 					<p>Instead of Directives, use:</p>
+					<div style="display: inline-block;width: 47%;vertical-align: top;">
+						<pre><code data-trim contenteditable style="font-size: 1.5em;">
+							angular.module('myModule')
+.directive('myComponent', () => {
+  return {
+    template: `<div>{{myControllerAs.data}}</div>`
+    controller: MyController,
+    controllerAs: 'myControllerAs'
+    bindToController: {
+      input: '=',
+      output: '&'
+    },
+    scope: {},
+    link: (scope, element, attrs, ngModelController) => {}
+  }
+});
+						</code></pre></div>
+						<div style="display: inline-block;width: 47%;vertical-align: top;">
 					<pre><code data-trim contenteditable style="line-height: 1.2em; font-size: 1.5em;">
 						angular.module('myModule')
 .component('myComponent', {
-  template: `<div>I love cats</div>`
+  template: `<div>{{$ctrl.data}}</div>`
   controller: MyController,
   bindings: {
     input: '=',
@@ -131,6 +151,7 @@ module.component('myComponent', {
 });
 					</code>
 					</pre>
+				</div>
 				</section>
 				<section>
 					<h2 style="color: #13DAEC;">Map Routes to Components</h2>
