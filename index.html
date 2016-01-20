@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/league.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/drakula.css">
+		<style>
+		.reveal table th, .reveal table td {
+			border: 1px solid;
+		}
+		.reveal table th {
+			background-color: #FF8C00;
+		}
+
+		ul, li {
+			line-height: 1.5em !important;
+		}
+		</style>
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="#ff4b5e">
+					<h1>Moving to Components</h1>
+					<div>
+						<p>Yaniv Efraim</p>
+					</div>
+					<div><p style="margin-top: 20px; color: #13DAEC">Wix.com</p></div>
+				</section>
+				<section>
+					<img src="./images/kitten.png" />
+				</section>
+				<!-- <section style="background-size: contain;" data-background="./images/kitten.png">
+
+				</section> -->
+				<section>
+					<h2 style="color: #13DAEC">Stop Using!!!</h2>
+					<ul>
+							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">NG-CONTROLLER</li>
+							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">NG-INCLUDE</li>
+							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">**Directives</li>
+						</ul>
+						<p></p>
+						<p class="fragment fade-in" style="position: absolute; bottom: -20px; font-size: 16px;">** directives can be used for DOM manipulations</p>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">Why?</h2>
+					<div>
+						<ul>
+							<li style="color: #13DAEC"><span style="color: #eee">No more scope soup / mutable shared state</li>
+							<li style="color: #13DAEC"><span style="color: #eee">Component's state is well known</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">What should we use instead?</h2>
+					<p>Replace:</p>
+					<div style="width: 60%;margin: 0 auto;">
+					<pre><code data-trim contenteditable style="line-height: 1.2em; font-size: 1.5em;">
+						<div ng-controller="myController"></div>
+					</code>
+					</pre>
+				</div>
+					<p>With:</p>
+					<div style="width: 60%;margin: 0 auto;">
+					<pre><code data-trim contenteditable style="line-height: 1.2em; font-size: 1.5em;">
+						<my-component></my-component>
+					</code>
+					</pre>
+				</div>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">What should we use instead?</h2>
+					<pre><code data-trim contenteditable style="line-height: 1.2em; font-size: 1.5em;">
+							//Instead:
+<div ng-include="my-template.html"></div>
+
+//Use:
+module.component('myComponent', {
+  templateUrl: 'my-template.html';
+  ...
+})
+
+					</code>
+					</pre>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">Map Routes to Components</h2>
+					<pre><code data-trim contenteditable style="line-height: 1.2em; font-size: 1.5em;">
+						angular.module('myModule')
+  .config(($routeProvider) => {
+    $routeProvider
+      .when('/my-app', {
+        template: `<my-app-component saved-games="resolve.savedGames">
+                  </my-app-component>`,
+        resolve: {
+          savedGames: function (gameServerApi: GameServerApi) {
+            return gameServerApi.getSavedGames();
+          }
+        }
+      })
+					</code>
+					</pre>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">What should we use instead?</h2>
+					<p>Instead of Directives, use:</p>
+					<pre><code data-trim contenteditable style="line-height: 1.2em; font-size: 1.5em;">
+						angular.module('myModule')
+.component('myComponent', {
+  template: `<div>I love cats</div>`
+  controller: MyController,
+  bindings: {
+    input: '=',
+    output: '&'
+  }
+});
+					</code>
+					</pre>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">What Do We Want From Our Component?</h2>
+					<div>
+						<ul>
+							<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Well-defined public API - inputs and outputs
+</li>
+							<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Immutable - does not change data which it doesn't own</li>
+							<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Isolated - no side effects / external references</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">Let's Take This Piece Of HTML</h3>
+					<pre><code style="max-height: 600px;font-size: 1.5em;" data-trim contenteditable>
+<div ng-controller="MainCtrl as mainCtrl">
+  <h1>Items</h1>
+  <ul>
+    <li ng-repeat="item in mainCtrl.items">
+      {{item.text}}
+      <button ng-click="mainCtrl.deleteItem(item)">
+        Delete
+      </button>
+    </li>
+  </ul>
+</div>
+					</code></pre>
+				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">And Its Controller</h3>
+					<pre><code style="max-height: 600px;font-size: 1.5em;" data-trim contenteditable>
+function MainController() {
+  var ctrl = this;
+  ctrl.items = [{title: 'title 1', text: 'item 1'}, {...}];
+  ctrl.deleteItem = function(item) {
+    var idx = ctrl.items.indexOf(item);
+    if (idx >= 0) {
+      ctrl.items.splice(idx, 1);
+    }
+  };
+}
+					</code></pre>
+				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">And Create an 'item-list' Component</h3>
+					<pre><code style="max-height: 600px;font-size: 1.5em;" data-trim contenteditable>
+<div ng-controller="MainCtrl as mainCtrl">
+  <h1>Items</h1>
+  <!-- <ul>
+    <li ng-repeat="item in mainCtrl.items">
+      { {item.text}}
+      <button ng-click="mainCtrl.deleteItem(item)">
+        Delete
+      </button>
+    </li>
+  </ul> -->
+  <item-list items="mainCtrl.items"></item-list>
+</div>
+					</code></pre>
+				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">item-list Component's Directive</h3>
+					<pre><code style="max-height: 600px;font-size: 1.3em;line-height: 1.3em;" data-trim contenteditable>
+module.directive('itemList', function() {
+  return {
+    scope: {},
+    controller: function() {
+      var ctrl = this;
+      ctrl.deleteItem = function(item) {
+        var idx = ctrl.items.indexOf(item);
+        if (idx >= 0) {
+          ctrl.items.splice(idx, 1);
+        }
+      };
+    },
+    controllerAs: 'itemListCtrl',
+    bindToController: {
+      items: '='
+    },
+    templateUrl: 'item-list.html'
+  };
+});
+					</code></pre>
+				</section>
+				<!-- <section>
+					<h2 style="color: #13DAEC">item-list Component's Template</h3>
+					<pre><code style="max-height: 600px;font-size: 1.3em;line-height: 1.3em;" data-trim contenteditable>
+<ul>
+  <li ng-repeat="item in itemListCtrl.items">
+    {{item.text}}
+    <button ng-click="itemListCtrl.deleteItem(item)">
+      Delete
+    </button>
+  </li>
+</ul>
+					</code></pre>
+				</section> -->
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">Cool! But Wait - What Is Wrong Here?</h3>
+					<p>(our component is mutating data it doesn't own!) </p>
+					<pre><code style="margin: 40px auto;width: 50%;max-height: 600px;font-size: 1.3em;line-height: 1.3em;" data-trim contenteditable>
+ctrl.deleteItem = function(item) {
+  var idx = ctrl.items.indexOf(item);
+  if (idx >= 0) {
+    ctrl.items.splice(idx, 1);
+  }
+};
+					</code></pre>
+				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">Adding An Output Event</h3>
+					<pre><code style="max-height: 600px;font-size: 1.3em;line-height: 1.3em;" data-trim contenteditable>
+module.directive('itemList', function() {
+  return {
+    scope: {},
+    controller: function() {
+      var ctrl = this;
+      ctrl.deleteItem = function(item) {
+        ctrl.onDelete({item: item});
+      };
+    },
+    controllerAs: 'itemListCtrl',
+    bindToController: {
+      items: '=',
+      onDelete: '&'
+    },
+    templateUrl: 'item-list.html'
+  };
+});
+					</code></pre>
+				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">Registering An Output Event</h3>
+					<pre><code style="max-height: 600px;font-size: 1.5em;" data-trim contenteditable>
+<div ng-controller="MainCtrl as mainCtrl">
+  <h1>Items</h1>
+  <item-list items="mainCtrl.items" on-delete="mainCtrl.onDelete(item)"></item-list>
+</div>
+					</code></pre>
+				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">We Now Have A Well Defined Component</h3>
+					<pre><code style="max-height: 600px;font-size: 1.3em;line-height: 1.3em;" data-trim contenteditable>
+module.directive('itemList', function() {
+  return {
+    scope: {},
+    controller: function() {
+      var ctrl = this;
+      ctrl.deleteItem = function(item) {
+        ctrl.onDelete({item: item});
+      };
+    },
+    controllerAs: 'itemListCtrl',
+    bindToController: {
+      items: '=', //input
+      onDelete: '&' //output
+    },
+    templateUrl: 'item-list.html'
+  };
+});
+					</code></pre>
+					<div style="position: fixed;top: 280px;right:50px;">  <-- Logic</div>
+<div style="position: fixed;top: 450px;right:50px;">  <-- Interface</div>
+<div style="position: fixed;top: 530px;right:50px;">  <-- View</div>
+				</section>
+				<section data-background="#13DAEC">
+					<h2 style="color: black;">Recap - item-list Component</h2>
+					<div style="color: black;">
+						<ul>
+							<li>Our component now has a well defined API</li>
+							<li>No shared mutable state</li>
+							<li>No side effects / external references</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-background="#ff4b5e">
+					<h1>Thank You</h1>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
