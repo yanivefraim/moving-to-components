@@ -161,8 +161,16 @@ module.component('myComponent', {
 						</ul>
 					</div>
 				</section>
+				<section data-background="#13DAEC">
+					<h1 style="font-size: 3.2em;">Component Architecture</h2>
+				</section>
 				<section>
-					<h2 style="color: #13DAEC;">Compoenent Architecture</h2>
+					<h2 style="color: #13DAEC;">What Is A Component</h2>
+					<h3>An atomic piece of UI that is composable and reusable.
+							</h3>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">What do we want from our component?</h2>
 					<ul>
 						<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Well-defined public API - inputs and outputs
 </li>
@@ -335,10 +343,11 @@ module.component('itemList', {
 					<h2 style="color: #13DAEC">Replacing ng-controller with a Component</h3>
 					<pre><code style="max-height: 600px;font-size: 1.5em;" data-trim contenteditable>
 						module.component('mainComponent', {
-  template: `<div>
-	       <h1>Items</h1>
-	       <item-list items="$ctrl.items" on-delete="$ctrl.onDelete(item)"></item-list>
-	     </div>
+  template: `
+  <div>
+    <h1>Items</h1>
+    <item-list items="$ctrl.dataService.items" on-delete="$ctrl.onDelete(item)"></item-list>
+  </div>
 `,
   controller: MainComponentController
 })
@@ -354,10 +363,10 @@ module.component('itemList', {
 						</ul>
 					</div>
 				</section>
-				<section data-background="#13DAEC">
+				<!-- <section data-background="#13DAEC">
 					<h2 style="color: black;">Demo Time</h2>
 
-				</section>
+				</section> -->
 
 				<section data-background="#ff4b5e">
 					<h1>Thank You</h1>
