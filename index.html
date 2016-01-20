@@ -160,7 +160,7 @@ module.component('myComponent', {
   .config(($routeProvider) => {
     $routeProvider
       .when('/my-app', {
-        template: `<my-app-component saved-games="resolve.savedGames">
+        template: `<my-app-component saved-games="$resolve.savedGames">
                   </my-app-component>`,
         resolve: {
           savedGames: function (gameServerApi: GameServerApi) {
