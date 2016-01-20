@@ -65,14 +65,24 @@
 
 				</section> -->
 				<section>
-					<h2 style="color: #13DAEC">Stop Using!!!</h2>
+					<h2 style="color: #13DAEC">Stop Using</h2>
 					<ul>
 							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">NG-CONTROLLER</li>
 							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">NG-INCLUDE</li>
 							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">**Directives</li>
 						</ul>
 						<p></p>
-						<p class="fragment fade-in" style="position: absolute; bottom: -20px; font-size: 16px;">** directives can be used for DOM manipulations</p>
+						<p class="fragment fade-in" style="position: absolute; bottom: -40px;left: 450px; font-size: 16px;">** directives can be used for DOM manipulations</p>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC">Why not ng-controller?</h2>
+					<ul>
+							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">Scope Inheritance - shared mutable state</li>
+							<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">Poor View Organization - several controllers for same html
+</li>
+<li class="fragment fade-in" style="color: #ff4b5e"><span style="color: #eee">Preparing for Angular 2.X
+</li>
+						</ul>
 				</section>
 				<section>
 					<h2 style="color: #13DAEC;">What should we use instead?</h2>
@@ -152,23 +162,18 @@ module.component('myComponent', {
 					</div>
 				</section>
 				<section>
-					<h2 style="color: #13DAEC;">What Do We Want From Our Component?</h2>
-					<div>
-						<ul>
-							<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Well-defined public API - inputs and outputs
+					<h2 style="color: #13DAEC;">Compoenent Architecture</h2>
+					<ul>
+						<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Well-defined public API - inputs and outputs
 </li>
-							<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Immutable - does not change data which it doesn't own</li>
-							<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Isolated - no side effects / external references</li>
-						</ul>
-					</div>
+						<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Immutable - does not change data which it doesn't own</li>
+						<li class="fragment fade-in" style="color: #13DAEC"><span style="color: #eee">Isolated - no side effects / external references</li>
+					</ul>
 				</section>
 				<section>
-					<h2 style="color: #13DAEC;">Why?</h2>
+					<h2 style="color: #13DAEC;">Unidirectional data-flow</h2>
 					<div>
-						<ul>
-							<li style="color: #13DAEC"><span style="color: #eee">No more scope soup / mutable shared state</li>
-							<li style="color: #13DAEC"><span style="color: #eee">Component's state is well known</li>
-						</ul>
+						<img src="./images/parent_child.png" width="100%" style="margin: 0;background: none;border: none;box-shadow: none;" />
 					</div>
 				</section>
 				<section>
@@ -325,6 +330,20 @@ module.component('itemList', {
 <div style="position: fixed;top: 450px;right:50px;">  <-- Interface</div>
 <div style="position: fixed;top: 530px;right:50px;">  <-- View</div>
 				</section>
+				<section>
+					<!-- <p style="color: #13DAEC;position: fixed;top: 0px;left:0px;font-size: 16px;">Moving To Components</p> -->
+					<h2 style="color: #13DAEC">Replacing ng-controller with a Component</h3>
+					<pre><code style="max-height: 600px;font-size: 1.5em;" data-trim contenteditable>
+						module.component('mainComponent', {
+  template: `<div>
+	       <h1>Items</h1>
+	       <item-list items="$ctrl.items" on-delete="$ctrl.onDelete(item)"></item-list>
+	     </div>
+`,
+  controller: MainComponentController
+})
+					</code></pre>
+				</section>
 				<section data-background="#13DAEC">
 					<h2 style="color: black;">Recap - item-list Component</h2>
 					<div style="color: black;">
@@ -336,7 +355,7 @@ module.component('itemList', {
 					</div>
 				</section>
 				<section data-background="#13DAEC">
-					<h2 style="color: black;">Demo</h2>
+					<h2 style="color: black;">Demo Time</h2>
 
 				</section>
 
