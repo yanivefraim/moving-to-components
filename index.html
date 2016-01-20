@@ -123,10 +123,6 @@ module.component('myComponent', {
 					</pre>
 				</section>
 				<section>
-					<h2 style="color: #13DAEC;">Diferences between Directive and Component</h2>
-					??
-				</section>
-				<section>
 					<h2 style="color: #13DAEC;">Map Routes to Components</h2>
 					<pre><code data-trim contenteditable style="line-height: 1.2em; font-size: 1.5em;">
 						angular.module('myModule')
@@ -143,6 +139,17 @@ module.component('myComponent', {
       })
 					</code>
 					</pre>
+				</section>
+				<section>
+					<h2 style="color: #13DAEC;">Advantages of Angular 1.5 Component syntax</h2>
+					<div>
+						<ul>
+							<li style="color: #13DAEC"><span style="color: #eee">Simpler configuration than plain directives</li>
+							<li style="color: #13DAEC"><span style="color: #eee">Promote sane defaults and best practices</li>
+							<li style="color: #13DAEC"><span style="color: #eee">Optimized for component-based architecture</li>
+							<li style="color: #13DAEC"><span style="color: #eee">Writing component directives will make it easier to upgrade to Angular 2</li>
+						</ul>
+					</div>
 				</section>
 				<section>
 					<h2 style="color: #13DAEC;">What Do We Want From Our Component?</h2>
@@ -229,8 +236,7 @@ module.component('itemList', {
         }
       };
     },
-    controllerAs: 'itemListCtrl',
-    bindToController: {
+    bindings: {
       items: '='
     },
     templateUrl: 'item-list.html'
@@ -271,13 +277,12 @@ ctrl.deleteItem = function(item) {
 module.component('itemList', {
     scope: {},
     controller: function() {
-      var ctrl = this;
-      ctrl.deleteItem = function(item) {
-        ctrl.onDelete({item: item});
+      $ctrl.deleteItem = function(item) {
+        $ctrl.onDelete({item: item});
       };
     },
     controllerAs: 'itemListCtrl',
-    bindToController: {
+    bindings: {
       items: '=',
       onDelete: '&'
     },
@@ -303,13 +308,12 @@ module.component('itemList', {
 module.component('itemList', {
     scope: {},
     controller: function() {
-      var ctrl = this;
-      ctrl.deleteItem = function(item) {
-        ctrl.onDelete({item: item});
+      $ctrl.deleteItem = function(item) {
+        $ctrl.onDelete({item: item});
       };
     },
     controllerAs: 'itemListCtrl',
-    bindToController: {
+    bindings: {
       items: '=', //input
       onDelete: '&' //output
     },
@@ -333,7 +337,7 @@ module.component('itemList', {
 				</section>
 				<section data-background="#13DAEC">
 					<h2 style="color: black;">Demo</h2>
-					
+
 				</section>
 
 				<section data-background="#ff4b5e">
